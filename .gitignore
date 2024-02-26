@@ -1,0 +1,8 @@
+/vendor
+/node_modules
+/build
+.env
+.vscode
+.DS_Store
+# Ignore ACF stubs dependency (only for development purposes)
+_acf-dependency.php
