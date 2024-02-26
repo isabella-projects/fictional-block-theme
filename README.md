@@ -19,9 +19,11 @@
 
 # 🧪 Fictional University - Block Theme
 
-# 📝 Overview
+![fictional-block-theme](https://github.com/isabella-projects/fictional-university/assets/76888305/1a395559-0fb7-44b5-93d8-26d90e22a2ec)
 
-This is a rework of our Fictional University team into block theme. A flexible and modern way :)
+# 📝 Description
+
+This is a rework of our Fictional University theme into block theme. A flexible and modern way :)
 
 ## Cloning the project
 
