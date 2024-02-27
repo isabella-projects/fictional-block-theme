@@ -4,7 +4,7 @@
     "description": "<div align=\"center\">     <img src=\"https://i.imgur.com/YlGrpaq.png\" width=\"800px\" height=\"auto\"> </div>",
     "main": "index.js",
     "scripts": {
-        "start": "wp-scripts start src/index.js blocks/banner.jsx blocks/genericheading.jsx blocks/genericbutton.jsx",
+        "start": "wp-scripts start src/index.js blocks/banner.jsx blocks/genericheading.jsx blocks/genericbutton.jsx blocks/slideshow.jsx blocks/slide.jsx",
         "dev": "wp-scripts start"
     },
     "keywords": [],

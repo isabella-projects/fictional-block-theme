@@ -2,7 +2,7 @@
     <img src="https://i.imgur.com/YlGrpaq.png" width="800px" height="auto">
 </div>
 
-# 🌐 Fictional University as Block Theme Rework
+# 🌐 2024 Fictional University as Block Theme Rework
 
 # 🛠 Tech Stack
 

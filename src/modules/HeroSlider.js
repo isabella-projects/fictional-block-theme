@@ -2,9 +2,9 @@ import Glide from '@glidejs/glide';
 
 export default class HeroSlider {
     constructor() {
-        if (document.querySelector('.hero-slider')) {
-            // count how many slides there are
-            const dotCount = document.querySelectorAll('.hero-slider__slide').length;
+        const allSlideshows = document.querySelectorAll('.hero-slider');
+        allSlideshows.forEach((currSlideshow) => {
+            const dotCount = currSlideshow.querySelectorAll('.hero-slider__slide').length;
 
             // Generate the HTML for the navigation dots
             let dotHTML = '';
@@ -13,16 +13,16 @@ export default class HeroSlider {
             }
 
             // Add the dots HTML to the DOM
-            document.querySelector('.glide__bullets').insertAdjacentHTML('beforeend', dotHTML);
+            currSlideshow.querySelector('.glide__bullets').insertAdjacentHTML('beforeend', dotHTML);
 
             // Actually initialize the glide / slider script
-            var glide = new Glide('.hero-slider', {
+            var glide = new Glide(currSlideshow, {
                 type: 'carousel',
                 perView: 1,
                 autoplay: 3000,
             });
 
             glide.mount();
-        }
+        });
     }
 }
