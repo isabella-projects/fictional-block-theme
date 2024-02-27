@@ -196,12 +196,21 @@ function ignoreFiles()
 
 class JSXBlock
 {
-    public $name;
+    private $name;
+    private $renderCallback;
 
-    public function __construct($name)
+    public function __construct($name, $renderCallback = null)
     {
         $this->name = $name;
+        $this->renderCallback = $renderCallback;
         add_action('init', [$this, 'onInit']);
+    }
+
+    public function fnRenderCallback($attributes, $content)
+    {
+        ob_start();
+        require get_theme_file_path("blocks/{$this->name}.php");
+        return ob_get_clean();
     }
 
     public function onInit()
@@ -215,12 +224,16 @@ class JSXBlock
             ]
         );
 
-        register_block_type("blocktheme/{$this->name}", [
-            'editor_script' => $this->name
-        ]);
+        $args = ['editor_script' => $this->name];
+
+        if ($this->renderCallback) {
+            $args['render_callback'] = [$this, 'fnRenderCallback'];
+        }
+
+        register_block_type("blocktheme/{$this->name}", $args);
     }
 }
 
-new JSXBlock('banner');
+new JSXBlock('banner', true);
 new JSXBlock('genericheading');
 new JSXBlock('genericbutton');
