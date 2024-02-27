@@ -12,7 +12,7 @@ registerBlockType('blocktheme/banner', {
     attributes: {
         align: { type: 'string', default: 'full' },
         imgID: { type: 'number' },
-        imgURL: { type: 'string' },
+        imgURL: { type: 'string', default: window.banner.fallbackimage },
     },
     edit: EditComponent,
     save: SaveComponent,
@@ -20,17 +20,19 @@ registerBlockType('blocktheme/banner', {
 
 function EditComponent(props) {
     useEffect(() => {
-        async function fetch() {
-            const response = await apiFetch({
-                path: `/wp/v2/media/${props.attributes.imgID}`,
-                method: 'GET',
-            });
+        if (props.attributes.imgID) {
+            async function fetch() {
+                const response = await apiFetch({
+                    path: `/wp/v2/media/${props.attributes.imgID}`,
+                    method: 'GET',
+                });
 
-            props.setAttributes({
-                imgURL: response.media_details.sizes.pageBanner.source_url,
-            });
+                props.setAttributes({
+                    imgURL: response.media_details.sizes.pageBanner.source_url,
+                });
+            }
+            fetch();
         }
-        fetch();
     }, [props.attributes.imgID]);
 
     function onFileSelect(file) {

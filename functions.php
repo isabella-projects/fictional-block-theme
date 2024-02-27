@@ -194,18 +194,74 @@ function ignoreFiles()
     return $exclude_filters;
 }
 
+class PlaceholderBlock
+{
+    private $name;
+
+    public function __construct($name)
+    {
+        $this->name = $name;
+        add_action('init', [$this, 'onInit']);
+    }
+
+    public function fnRenderCallback($attributes, $content)
+    {
+        ob_start();
+        require get_theme_file_path("blocks/{$this->name}.php");
+        return ob_get_clean();
+    }
+
+    public function onInit()
+    {
+        wp_register_script(
+            $this->name,
+            get_stylesheet_directory_uri() . "/blocks/{$this->name}.js",
+            [
+                'wp-blocks',
+                'wp-editor'
+            ]
+        );
+
+        register_block_type(
+            "blocktheme/{$this->name}",
+            [
+                'editor_script' => $this->name,
+                'render_callback' => [$this, 'fnRenderCallback']
+            ]
+        );
+    }
+}
+
+new PlaceholderBlock('eventsandblogs');
+
 class JSXBlock
 {
     private $name;
     private $renderCallback;
+    private $data;
 
-    public function __construct($name, $renderCallback = null)
+    /**
+     * Constructor
+     *
+     * @param string $name File name of the JSX block
+     * @param boolean $renderCallback True if the instance should include WP render_callback, false otherwise
+     */
+    public function __construct($name, $renderCallback = null, $data = null)
     {
         $this->name = $name;
         $this->renderCallback = $renderCallback;
+        $this->data = $data;
         add_action('init', [$this, 'onInit']);
     }
 
+    /**
+     * Function is being used inside blocks/*.php files.
+     * Renders user uploaded image and outputs it on the frontend.
+     *
+     * @param string $attributes
+     * @param string $content
+     * @return void
+     */
     public function fnRenderCallback($attributes, $content)
     {
         ob_start();
@@ -224,8 +280,15 @@ class JSXBlock
             ]
         );
 
-        $args = ['editor_script' => $this->name];
+        if ($this->data) {
+            wp_localize_script(
+                $this->name,
+                $this->name,
+                $this->data
+            );
+        }
 
+        $args = ['editor_script' => $this->name];
         if ($this->renderCallback) {
             $args['render_callback'] = [$this, 'fnRenderCallback'];
         }
@@ -234,6 +297,10 @@ class JSXBlock
     }
 }
 
-new JSXBlock('banner', true);
+new JSXBlock(
+    'banner',
+    true,
+    ['fallback_image' => get_theme_file_uri('/images/library-hero.jpg')]
+);
 new JSXBlock('genericheading');
 new JSXBlock('genericbutton');
