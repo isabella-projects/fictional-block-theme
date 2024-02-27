@@ -238,6 +238,16 @@ new PlaceholderBlock('footer');
 new PlaceholderBlock('singlepost');
 new PlaceholderBlock('page');
 new PlaceholderBlock('blogindex');
+new PlaceholderBlock('programarchive');
+new PlaceholderBlock('singleprogram');
+new PlaceholderBlock('singleprofessor');
+new PlaceholderBlock('mynotes');
+new PlaceholderBlock("archiveevent");
+new PlaceholderBlock("archive");
+new PlaceholderBlock("pastevents");
+new PlaceholderBlock("search");
+new PlaceholderBlock("searchresults");
+new PlaceholderBlock("singleevent");
 
 class JSXBlock
 {
@@ -312,3 +322,19 @@ new JSXBlock('genericheading');
 new JSXBlock('genericbutton');
 new JSXBlock('slideshow', true);
 new JSXBlock('slide', true, ['themeimagepath' => get_theme_file_uri('/images/')]);
+
+add_filter('allowed_block_types_all', 'allowedBlocks', 10, 2);
+
+function allowedBlocks($allowed_block_types, $editor_context)
+{
+    // If we are on a page/post editor screen
+    if (!empty($editor_context->post)) {
+        return $allowed_block_types;
+    }
+
+    // If we are on the full site editor screen
+    return [
+        'blocktheme/header',
+        'blocktheme/footer'
+    ];
+}
