@@ -19,7 +19,7 @@
 
 # 🧪 Fictional University - Block Theme
 
-![fictional-block-theme](https://github.com/isabella-projects/fictional-university/assets/76888305/1a395559-0fb7-44b5-93d8-26d90e22a2ec)
+![fictional-block-theme](https://github.com/isabella-projects/fictional-block-theme/assets/76888305/0a221342-bd46-4123-ae1a-1144c3bf9398)
 
 # 📝 Description
 
